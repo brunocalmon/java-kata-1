@@ -1,6 +1,5 @@
 package org.echocat.kata.java.part1;
 
-import java.util.Collections;
 import java.util.List;
 
 public class MainApp {
