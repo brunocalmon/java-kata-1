@@ -14,7 +14,7 @@ public class AuthorTest {
     Author.fromLine(lines);
 
     assertEquals("A", author.getEmail());
-    assertEquals("B", author.getFirstname());
-    assertEquals("C", author.getLastname());
+    assertEquals("B", author.getFirstName());
+    assertEquals("C", author.getLastName());
   }
 }

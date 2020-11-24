@@ -1,5 +1,7 @@
 package org.echocat.kata.java.part1;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -34,6 +36,14 @@ public class LibraryManager {
     });
   }
 
+  public List<Publication> getAllPublications() {
+    return publications;
+  }
+
+  public List<Author> getAllAuthors() {
+    return authors;
+  }
+
   public List<Publication> getSortedByTitle() {
     List<Publication> cloned = new ArrayList<>(publications);
     cloned.sort(new SortByTitle());
@@ -45,22 +55,46 @@ public class LibraryManager {
   }
 
   public Optional<List<Publication>> getByAuthor(String author) {
-    return Optional
-        .of(publications.stream().filter(pub -> pub.isAuthor(author)).collect(Collectors.toList()));
+    List<Publication> publications = this.publications.stream().filter(pub -> pub.isAuthor(author))
+        .collect(Collectors.toList());
+
+    if (publications.isEmpty()) {
+      return Optional.empty();
+    } else {
+      return Optional.of(publications);
+    }
   }
 
-  public static List<Magazine> readMagazine(ReadCSVFile<Magazine> readMagazine) {
-    Optional<List<Magazine>> magazines = readMagazine.readCsv("magazines");
+  public static List<Magazine> readMagazine(ReadCSVFile<Magazine> readMagazine, String fileName) {
+    Optional<List<Magazine>> magazines = readMagazine.readCsv(fileName);
     return magazines.orElseThrow(() -> new RuntimeException("Not found"));
   }
 
-  public static List<Book> readBook(ReadCSVFile<Book> readBook) {
+  public static List<Book> readBook(ReadCSVFile<Book> readBook, String fileName) {
     Optional<List<Book>> books = readBook.readCsv("books");
     return books.orElseThrow(() -> new RuntimeException("Not found"));
   }
 
-  public static List<Author> readAuthor(ReadCSVFile<Author> readAuthor) {
+  public static List<Author> readAuthor(ReadCSVFile<Author> readAuthor, String fileName) {
     Optional<List<Author>> authors = readAuthor.readCsv("authors");
     return authors.orElseThrow(() -> new RuntimeException("Not found"));
+  }
+
+  public static boolean writeMagazine(WriteCSVFile<Magazine> writeCSVFile, String fileName,
+      List<Magazine> magazines) throws IOException, URISyntaxException {
+    boolean result = writeCSVFile.createCsv(fileName, Magazine.HEADERS, magazines);
+    return result;
+  }
+
+  public static boolean writeBook(WriteCSVFile<Book> writeCSVFile, String fileName,
+      List<Book> books) throws IOException, URISyntaxException {
+    boolean result = writeCSVFile.createCsv(fileName, Book.HEADERS, books);
+    return result;
+  }
+
+  public static boolean writeAuthor(WriteCSVFile<Author> writeCSVFile, String fileName,
+      List<Author> authors) throws IOException, URISyntaxException {
+    boolean result = writeCSVFile.createCsv(fileName, Author.HEADERS, authors);
+    return result;
   }
 }
