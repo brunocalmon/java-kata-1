@@ -50,3 +50,6 @@ local.properties
 .recommenders
 .project
 .factorypath
+
+### Resources
+src/main/resources/org/echocat/kata/java/part1/data/*.csv
