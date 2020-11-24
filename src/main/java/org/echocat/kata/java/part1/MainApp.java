@@ -10,7 +10,10 @@ public class MainApp {
         LibraryManager.readBook(Book::fromLine),
         LibraryManager.readAuthor(Author::fromLine));
 
+    System.out.println("Authors:");
     manager.printAllAuthors();
+
+    System.out.println("Books and Magazines:");
     manager.printAllBooksAndMagazines();
 
     Publication pubByISBN = manager.getByISBN("5554-5545-4518")
@@ -25,11 +28,7 @@ public class MainApp {
       System.out.println(p.toString());
     }
 
-    List<Publication> sortedByTitle = manager.getSortedByTitle();
     System.out.println("Books and Magazines sorted by title:");
-    for (Publication p : sortedByTitle) {
-      System.out.println(p.toString());
-    }
-
+    manager.printAllSortedPublications(manager.getSortedByTitle());
   }
 }

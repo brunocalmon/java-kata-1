@@ -28,6 +28,12 @@ public class LibraryManager {
     });
   }
 
+  public void printAllSortedPublications(List<Publication> sortedByTitlePublications) {
+    sortedByTitlePublications.stream().forEach(publication -> {
+      System.out.println(publication.toString());
+    });
+  }
+
   public List<Publication> getSortedByTitle() {
     List<Publication> cloned = new ArrayList<>(publications);
     cloned.sort(new SortByTitle());
@@ -39,7 +45,8 @@ public class LibraryManager {
   }
 
   public Optional<List<Publication>> getByAuthor(String author) {
-    return Optional.of(publications.stream().filter(pub -> pub.isAuthor(author)).collect(Collectors.toList()));
+    return Optional
+        .of(publications.stream().filter(pub -> pub.isAuthor(author)).collect(Collectors.toList()));
   }
 
   public static List<Magazine> readMagazine(ReadCSVFile<Magazine> readMagazine) {
